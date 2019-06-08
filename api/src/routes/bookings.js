@@ -6,9 +6,9 @@ import db from '../config/db';
 import config from '../config/goibibo';
 
 const router = express.Router();
-const flightSearchUrl = 'https://' + config.domain + '/api/search';
+const flightSearchUrl = 'http://' + config.domain + '/api/search/';
 
-router.get(
+router.post(
   '/flight/search',
   validate(schema.flightsearch),
   async (req, res) => {
@@ -22,12 +22,14 @@ router.get(
         dateofdeparture: req.body.dateofdeparture,
         seatingclass: req.body.seatingclass,
         adults: 1 + req.body.people.length,
+        children: 0,
+        infants: 0,
         counter: 100
       };
       const flights = await axios.get(flightSearchUrl, {
         params: query
       });
-      return res.sendSuccess(flights);
+      return res.sendSuccess(flights.data.data.onwardflights);
     } catch (err) {
       res.sendError(err);
     }

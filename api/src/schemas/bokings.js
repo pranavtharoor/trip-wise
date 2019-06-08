@@ -1,11 +1,4 @@
 import Joi from '@hapi/joi';
-import db from '../config/db';
-let codes = [];
-db.query('SELECT code from iata_codes')
-  .then(response => {
-    codes = response.map(el => el.code);
-  })
-  .catch(console.error);
 
 exports.flightsearch = Joi.object({
   body: Joi.object({
@@ -14,10 +7,12 @@ exports.flightsearch = Joi.object({
       .positive()
       .required(),
     source: Joi.string()
-      .valid(codes)
+      .min(3)
+      .max(3)
       .required(),
     destination: Joi.string()
-      .valid(codes)
+      .min(3)
+      .max(3)
       .required(),
     dateofdeparture: Joi.string()
       .regex(/^[0-9]{8}$/)
