@@ -29,6 +29,7 @@ router.post(
       const flights = await axios.get(flightSearchUrl, {
         params: query
       });
+      res.cookie('search_details', req.body);
       return res.sendSuccess(flights.data.data.onwardflights);
     } catch (err) {
       res.sendError(err);

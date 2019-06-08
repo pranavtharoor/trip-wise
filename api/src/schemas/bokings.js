@@ -21,7 +21,7 @@ exports.flightsearch = Joi.object({
       .valid(['E', 'S'])
       .required(),
     people: Joi.array()
-      .items(Joi.string().email())
+      .items(Joi.number().integer())
       .required()
   }).required()
 });
