@@ -38,4 +38,22 @@ router.post('/login', validate(schema.login), async (req, res) => {
   }
 });
 
+router.get('/search/:str', async (req, res) => {
+  try {
+    const temp = '%' + req.params.str + '%';
+    const users = await db.query(
+      'SELECT id,name,email from users where name like ? or email like ? order by name asc',
+      [temp, temp]
+    );
+    return res.sendSuccess(users);
+  } catch (err) {
+    res.sendError(err);
+  }
+});
+
+router.get('/init', async (req, res) => {
+  if (req.isAuthenticated()) return res.sendSuccess(req.user);
+  return res.sendError(null, 'User Not logged in');
+});
+
 export default router;

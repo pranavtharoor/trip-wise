@@ -29,7 +29,7 @@ CREATE TABLE `expense` (
   `amount` double NOT NULL,
   `added_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,41 @@ CREATE TABLE `expense` (
 
 LOCK TABLES `expense` WRITE;
 /*!40000 ALTER TABLE `expense` DISABLE KEYS */;
+INSERT INTO `expense` VALUES (7,3,'Flight Booking FROM CCU TO BLR ON 20190730 #7',7960,1);
 /*!40000 ALTER TABLE `expense` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `flight_booking`
+--
+
+DROP TABLE IF EXISTS `flight_booking`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `flight_booking` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `carrierid` varchar(50) NOT NULL,
+  `airline` varchar(50) NOT NULL,
+  `flightno` varchar(10) NOT NULL,
+  `totalfare` double NOT NULL,
+  `depdate` char(8) NOT NULL,
+  `src` char(3) NOT NULL,
+  `dest` char(3) NOT NULL,
+  `booked_by` int(11) NOT NULL,
+  `booked_for` varchar(255) NOT NULL,
+  `tripid` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `flight_booking`
+--
+
+LOCK TABLES `flight_booking` WRITE;
+/*!40000 ALTER TABLE `flight_booking` DISABLE KEYS */;
+INSERT INTO `flight_booking` VALUES (7,'G8','GoAir','831',7960,'20190730','CCU','BLR',1,'[2]',3);
+/*!40000 ALTER TABLE `flight_booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -70,6 +104,32 @@ INSERT INTO `iata_codes` VALUES ('Agra','AGR','733','India','Kheria','+5.5'),('A
 UNLOCK TABLES;
 
 --
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `trip` varchar(100) DEFAULT NULL,
+  `msg` text NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sender` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `messages`
+--
+
+LOCK TABLES `messages` WRITE;
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `transactions`
 --
 
@@ -83,7 +143,7 @@ CREATE TABLE `transactions` (
   `userid` int(11) NOT NULL,
   `amount` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,6 +152,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
+INSERT INTO `transactions` VALUES (4,3,7,2,-3980),(5,3,7,1,3980);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,10 +167,11 @@ CREATE TABLE `trips` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `creator` int(11) NOT NULL,
+  `uuid` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `creator` (`creator`),
   CONSTRAINT `trips_ibfk_1` FOREIGN KEY (`creator`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,6 +180,7 @@ CREATE TABLE `trips` (
 
 LOCK TABLES `trips` WRITE;
 /*!40000 ALTER TABLE `trips` DISABLE KEYS */;
+INSERT INTO `trips` VALUES (2,'Goa',1,'a812f949-7f77-4de8-a9d8-de00da9d97f2'),(3,'Goa',1,'b60dd24c-ea05-4525-9090-7eba447b9e08'),(4,'Hackccelerator',1,'434fb3af-bdcb-4479-83ae-2dbcf3ebc425');
 /*!40000 ALTER TABLE `trips` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,6 +207,7 @@ CREATE TABLE `user_trip` (
 
 LOCK TABLES `user_trip` WRITE;
 /*!40000 ALTER TABLE `user_trip` DISABLE KEYS */;
+INSERT INTO `user_trip` VALUES (1,3),(2,3),(1,4);
 /*!40000 ALTER TABLE `user_trip` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +225,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,7 +234,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Shreyansh','shreyanshmurarka97@gmail.com','blaaah');
+INSERT INTO `users` VALUES (1,'Shreyansh','shreyanshmurarka97@gmail.com','blaaah'),(2,'Shreyansh','test@gmail.com','blaaah');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -183,4 +247,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-08 18:48:13
+-- Dump completed on 2019-06-09  2:11:36
