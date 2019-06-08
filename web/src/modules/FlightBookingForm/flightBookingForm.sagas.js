@@ -27,10 +27,11 @@ function* flightBooking({ payload }) {
 }
 
 function* flightChoice({ payload }) {
-  const data = yield call(request, '/bookings/flight/book', payload);
+  const data = yield call(request, '/bookings/flight/book', payload.data);
   if (data.success) {
     yield put(action(FLIGHT_CHOICE.RECEIVE));
-    yield put(action(SNACKBAR.SUCCESS, 'Flight Booked'));
+    yield put(action(SNACKBAR.SUCCESS, data.msg));
+    yield payload.push('/');
   } else {
     yield put(action(FLIGHT_CHOICE.ERROR));
     yield put(action(SNACKBAR.DANGER, 'Unable to book flight'));

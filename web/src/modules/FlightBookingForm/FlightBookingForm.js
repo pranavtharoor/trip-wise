@@ -78,10 +78,13 @@ class FlightBookingFormClass extends Component {
                 key={`flight_${i}`}
                 onClick={() =>
                   props.onFlightChoice({
-                    carrierid: flight.carrierid,
-                    arline: flight.airline,
-                    flightno: flight.flightno,
-                    totalfare: flight.fare.totalfare
+                    data: {
+                      carrierid: flight.carrierid,
+                      airline: flight.airline,
+                      flightno: flight.flightno,
+                      totalfare: flight.fare.totalfare
+                    },
+                    push: props.history.push
                   })
                 }
               >
