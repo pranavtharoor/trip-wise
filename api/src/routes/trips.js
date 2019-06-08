@@ -20,6 +20,20 @@ router.post('/create', async (req, res) => {
   }
 });
 
+router.post('/addmembers', async (req, res) => {
+  try {
+    const set = req.body.users.map(el => ({
+      userid: el,
+      tripid: req.body.tripid
+    }));
+    console.log(set);
+    await db.query('insert into user_trip set ?', set);
+    return res.sendSuccess('Added successfully');
+  } catch (err) {
+    res.sendError(err);
+  }
+});
+
 router.get('/', async (req, res) => {
   try {
     const result = await db.query(
