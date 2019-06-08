@@ -1,0 +1,66 @@
+version: '3.5'
+services:
+  api:
+    build:
+      dockerfile: ./api/Dockerfile
+      context: .
+    image: trippee-api
+    restart: unless-stopped
+    networks:
+      - trippee-network
+    container_name: trippee-api
+    depends_on:
+      - db
+      - redis
+    environment:
+      - POSTGRES_DB=trippee
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_PORT=5432
+      - REDIS_HOST=redis
+  db:
+    build:
+      dockerfile: ./db/Dockerfile
+      context: .
+    image: trippee-db
+    restart: unless-stopped
+    networks:
+      - trippee-network
+    container_name: trippee-db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=trippee
+  redis:
+    image: redis
+    container_name: trippee-redis
+    restart: unless-stopped
+    networks:
+      - trippee-network
+    volumes:
+      - redis-data:/data
+  web:
+    build:
+      dockerfile: ./web/Dockerfile
+      context: .
+    image: trippee-web
+    restart: unless-stopped
+    networks:
+      - trippee-network
+    container_name: trippee-web
+    depends_on:
+      - api
+    ports:
+      - 6001:80
+
+networks:
+  trippee-network:
+    driver: bridge
+    name: trippee-network
+
+volumes:
+  db-data:
+  redis-data:

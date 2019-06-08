@@ -1,0 +1,14 @@
+{
+  "env": {
+    "node": true,
+    "es6": true
+   },
+  "extends": ["eslint:recommended", "prettier"],
+  "parser": "babel-eslint",
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "curly": ["error", "multi", "consistent"],
+    "no-console": "off"
+  }
+}

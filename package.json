@@ -1,0 +1,23 @@
+{
+  "name": "trippee",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.13.1"
+  },
+  "scripts": {
+    "postinstall": "lerna bootstrap --hoist",
+    "start": "lerna run start",
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "clean": "lerna run clean",
+    "lint": "lerna run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/shreyansh97/trippee.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/shreyansh97/trippee/issues"
+  },
+  "homepage": "https://gitlab.com/shreyansh97/trippee#readme"
+}
