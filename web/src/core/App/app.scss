@@ -1,14 +1,23 @@
 @import 'Src/core/common.scss';
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
+input {
+  font-family: inherit;
+  font-size: inherit;
+}
+
 button {
   font-family: inherit;
+  font-size: inherit;
+  outline: none;
   cursor: pointer;
 }
 
 body {
   margin: 0;
+  font-family: 'Roboto';
 }

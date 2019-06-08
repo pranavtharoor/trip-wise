@@ -1,19 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
 import TripList from 'Src/modules/TripList';
 import TripForm from 'Src/modules/TripForm';
-import { Link } from 'react-router-dom';
 import './trips.scss';
 import PropTypes from 'prop-types';
+import AddButton from 'Src/modules/AddButton';
 
-const Trips = () => (
-  <div className="trips-page">
-    <div className="list-container">
-      <TripList />
-      <TripForm />
-      <Link to={`/trips/123/booking`}>asdasd</Link>
-    </div>
-  </div>
-);
+class Trips extends Component {
+  state = {
+    formShown: false
+  };
+
+  render() {
+    return (
+      <div className="trips-page">
+        <div className="header">TRIPS</div>
+        <div className="list-container">
+          <TripList />
+        </div>
+        <div
+          className={`form-container ${
+            this.state.formShown ? 'shown' : 'hidden'
+          }`}
+        >
+          <TripForm />
+        </div>
+        <div
+          className={`add-button-container ${
+            this.state.formShown ? 'shown' : 'hidden'
+          }`}
+          onClick={() => this.setState({ formShown: !this.state.formShown })}
+        >
+          <AddButton />
+        </div>
+      </div>
+    );
+  }
+}
 
 Trips.propTypes = {
   match: PropTypes.object.isRequired

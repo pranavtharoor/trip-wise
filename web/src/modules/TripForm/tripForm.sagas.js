@@ -5,10 +5,10 @@ import { SNACKBAR, TRIP } from 'Src/constants/actionTypes';
 function* trip({ payload }) {
   const data = yield call(request, '/trips/create', payload.data);
   if (data.success) {
-    yield put(action(SNACKBAR.SUCCESS, data.message));
-    yield payload.push('/');
+    yield put(action(SNACKBAR.SUCCESS, 'Trip created'));
+    yield put(action(TRIP.CREATE.RECEIVE));
   } else {
-    yield put(action(SNACKBAR.DANGER, data.message));
+    yield put(action(SNACKBAR.DANGER, 'Could not create trip'));
   }
   yield delay(3000);
   yield put(action(SNACKBAR.CLEAR));

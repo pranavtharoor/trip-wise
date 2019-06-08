@@ -11,7 +11,7 @@ class TripList extends Component {
     return (
       <div className="trip-list">
         {trips.map((trip, i) => (
-          <div key={`trip_${i}`}>${i}</div>
+          <div key={`trip_${i}`}>{trip.name}</div>
         ))}
       </div>
     );

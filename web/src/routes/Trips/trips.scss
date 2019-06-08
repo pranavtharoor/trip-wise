@@ -1,8 +1,43 @@
 @import 'Src/core/common.scss';
 
 .trips-page {
+  .header {
+    padding: 20px;
+    font-weight: 500;
+    font-size: 2rem;
+    color: $color-primary;
+    margin-bottom: 5px;
+    background: white;
+    position: sticky;
+    top: 0;
+  }
   .form-container {
-    height: 100%;
-    width: 400px;
+    width: 100%;
+    position: fixed;
+    bottom: 10px;
+    transition: all ease-in-out 0.5s;
+
+    &.shown {
+      transform: translateY(0);
+    }
+
+    &.hidden {
+      transform: translateY(calc(100% + 10px));
+    }
+  }
+
+  .add-button-container {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    transition: all ease-in-out 0.5s;
+
+    &.shown {
+      transform: translate(0px, -150px) rotate(45deg) scale(0.8);
+    }
+
+    &.hidden {
+      transform: translateY(0);
+    }
   }
 }

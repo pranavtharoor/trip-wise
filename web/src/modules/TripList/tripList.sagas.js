@@ -9,6 +9,7 @@ function* trip() {
 
 function* tripListSaga() {
   yield takeLatest(TRIP.FETCH.REQUEST, trip);
+  yield takeLatest(TRIP.CREATE.RECEIVE, trip);
 }
 
 export default tripListSaga;

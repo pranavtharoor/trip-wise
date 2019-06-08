@@ -17,7 +17,7 @@ const tripValidate = values => {
 let TripField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
     <input {...input} placeholder={label} type={type} />
-    <span className="error">{touched && (error && error)}</span>
+    {touched && (error && <span className="error">{error}</span>)}
   </div>
 );
 
