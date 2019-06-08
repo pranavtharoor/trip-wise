@@ -4,7 +4,7 @@ Let's figure this out
 
 ## Built with
 - Node
-- Postgres
+- MySQL
 - React
 - Redis
 
@@ -12,9 +12,9 @@ Let's figure this out
 To configure the api, copy `api/.env.example` to `api/.env` and modify the variables.
 From the project root follow this to set up the database and run the project:
 ```
-# setup database
-createdb micm
-psql -d micm -f db/sql-scripts/01_build.sql
+# setup database (MySQL)
+create database trippee
+source db/sql-scripts/01_build.sql
 
 # installs dependencies
 npm install
