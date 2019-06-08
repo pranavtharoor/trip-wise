@@ -10,7 +10,7 @@ router.post('/signup', validate(schema.signup), async (req, res) => {
     const users = await db.query('SELECT * FROM users WHERE email = ?', [
       req.body.email
     ]);
-    if (users.length > 0) return res.sendError('Email already exists');
+    if (users.length > 0) return res.sendError(null, 'Email already exists');
     await db.query('INSERT INTO users(name,email,password) VALUES(?,?,?)', [
       req.body.name,
       req.body.email,
@@ -28,7 +28,7 @@ router.post('/login', validate(schema.login), async (req, res) => {
       'SELECT * FROM users WHERE email = ? AND password = ?',
       [req.body.email, req.body.password]
     );
-    if (user.length == 0) return res.sendError('Wrong credentials');
+    if (user.length == 0) return res.sendError(null, 'Wrong credentials');
     req.logIn(user[0], err => {
       if (err) return res.sendError(err);
       return res.sendSuccess(null, 'Login Successful');
