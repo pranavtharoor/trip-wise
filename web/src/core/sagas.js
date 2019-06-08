@@ -2,6 +2,8 @@ import { all, put } from 'redux-saga/effects';
 import { action } from 'Src/utils';
 import { registerFormSaga } from 'Src/modules/RegisterForm';
 import { loginFormSaga } from 'Src/modules/LoginForm';
+import { tripFormSaga } from 'Src/modules/TripForm';
+import { tripListSaga } from 'Src/modules/TripList';
 import { AUTH, LOADING } from 'Src/constants/actionTypes';
 
 function* init() {
@@ -13,7 +15,13 @@ function* init() {
 }
 
 export function* rootSaga() {
-  yield all([init(), registerFormSaga(), loginFormSaga()]);
+  yield all([
+    init(),
+    tripFormSaga(),
+    registerFormSaga(),
+    loginFormSaga(),
+    tripListSaga()
+  ]);
 }
 
 export default rootSaga;

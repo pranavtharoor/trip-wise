@@ -1,7 +1,8 @@
-import { createNetworkConstants } from 'Src/utils';
+import { createNetworkConstants, createModelConstants } from 'Src/utils';
 
 export const REGISTER = createNetworkConstants('REGISTER');
 export const AUTH = createNetworkConstants('AUTH');
+export const TRIP = createModelConstants('TRIP');
 
 export const LOADING = {
   START: 'LOADING.START',
