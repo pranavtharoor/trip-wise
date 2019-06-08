@@ -1,5 +1,6 @@
 import { createNetworkConstants } from 'Src/utils';
 
+export const REGISTER = createNetworkConstants('REGISTER');
 export const AUTH = createNetworkConstants('AUTH');
 
 export const LOADING = {
