@@ -46,4 +46,60 @@ router.get('/flight/airports', async (req, res) => {
   }
 });
 
+router.post('/flight/book', validate(schema.book), async (req, res) => {
+  try {
+    if (!req.cookies.search_details)
+      return res.sendError(null, 'Search session expired. Please search again');
+    let insert = req.body;
+    insert.depdate = req.cookies.search_details.dateofdeparture;
+    insert.src = req.cookies.search_details.source;
+    insert.dest = req.cookies.search_details.destination;
+    insert.booked_by = req.user.id;
+    insert.booked_for = JSON.stringify(req.cookies.search_details.people);
+    insert.tripid = req.cookies.search_details.tripid;
+    let result = await db.query('INSERT INTO flight_booking SET ?', [insert]);
+    const booking_id = result.insertId;
+    result = await db.query(
+      'INSERT INTO expense(tripid, description, amount, added_by) VALUES (?,?,?,?)',
+      [
+        req.cookies.search_details.tripid,
+        'Flight Booking FROM ' +
+          insert.src +
+          ' TO ' +
+          insert.dest +
+          ' ON ' +
+          insert.depdate +
+          ' #' +
+          booking_id,
+        req.body.totalfare,
+        req.user.id
+      ]
+    );
+    const expense_id = result.insertId;
+    let per_person =
+      parseFloat(req.body.totalfare) /
+      (1 + req.cookies.search_details.people.length);
+    let set = req.cookies.search_details.people.map(person => [
+      req.cookies.search_details.tripid,
+      expense_id,
+      person,
+      -1 * per_person
+    ]);
+    set.push([
+      req.cookies.search_details.tripid,
+      expense_id,
+      req.user.id,
+      req.cookies.search_details.people.length * per_person
+    ]);
+    console.log(set);
+    await db.query(
+      'INSERT INTO transactions(tripid,expenseid,userid,amount) VALUES ?',
+      [set]
+    );
+    return res.sendSuccess(null, 'Ticket booked successfully');
+  } catch (e) {
+    res.sendError(e);
+  }
+});
+
 export default router;

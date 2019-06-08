@@ -25,3 +25,12 @@ exports.flightsearch = Joi.object({
       .required()
   }).required()
 });
+
+exports.book = Joi.object({
+  body: Joi.object({
+    carrierid: Joi.string().required(),
+    airline: Joi.string().required(),
+    flightno: Joi.string().required(),
+    totalfare: Joi.number().required()
+  }).required()
+});
