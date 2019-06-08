@@ -14,6 +14,7 @@ From the project root follow this to set up the database and run the project:
 ```
 # setup database (MySQL)
 create database trippee
+use trippee
 source db/sql-scripts/01_build.sql
 
 # installs dependencies
