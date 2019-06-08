@@ -5,8 +5,8 @@ import { SNACKBAR, REGISTER } from 'Src/constants/actionTypes';
 function* register({ payload }) {
   const data = yield call(request, '/auth/signup', payload.data);
   if (data.success) {
-    yield put(action(SNACKBAR.SUCCESS, data.message));
-    yield payload.push('/');
+    yield put(action(SNACKBAR.SUCCESS, 'Sign Up complete'));
+    yield payload.push('/signin');
   } else {
     yield put(action(SNACKBAR.DANGER, data.message));
   }

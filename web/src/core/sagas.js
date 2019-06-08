@@ -4,6 +4,7 @@ import { registerFormSaga } from 'Src/modules/RegisterForm';
 import { loginFormSaga } from 'Src/modules/LoginForm';
 import { tripFormSaga } from 'Src/modules/TripForm';
 import { tripListSaga } from 'Src/modules/TripList';
+import { flightBookingFormSaga } from 'Src/modules/FlightBookingForm';
 import { AUTH, LOADING } from 'Src/constants/actionTypes';
 
 function* init() {
@@ -20,7 +21,8 @@ export function* rootSaga() {
     tripFormSaga(),
     registerFormSaga(),
     loginFormSaga(),
-    tripListSaga()
+    tripListSaga(),
+    flightBookingFormSaga()
   ]);
 }
 

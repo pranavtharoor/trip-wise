@@ -18,7 +18,7 @@ exports.flightsearch = Joi.object({
       .regex(/^[0-9]{8}$/)
       .required(),
     seatingclass: Joi.string()
-      .valid(['E', 'S'])
+      .valid(['E', 'B'])
       .required(),
     people: Joi.array()
       .items(Joi.number().integer())

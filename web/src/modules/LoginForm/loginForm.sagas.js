@@ -10,7 +10,7 @@ function* login({ payload }) {
     if (data.success) {
       yield put(action(SNACKBAR.SUCCESS, data.msg));
       yield put(action(AUTH.RECEIVE));
-      yield payload.push('/');
+      yield payload.push('/trips');
     } else {
       yield put(action(SNACKBAR.DANGER, data.msg));
     }

@@ -45,5 +45,10 @@ module.exports = {
   ],
   node: {
     fs: 'empty'
+  },
+  output: {
+    filename: '[name].bundle.js',
+    chunkFilename: 'js/[name].bundle.js',
+    publicPath: '/'
   }
 };
