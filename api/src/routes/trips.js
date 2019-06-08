@@ -1,13 +1,14 @@
 import express from 'express';
 import db from '../config/db';
+import uuid from 'uuid/v4';
 
 const router = express.Router();
 
 router.post('/create', async (req, res) => {
   try {
     const result = await db.query(
-      'INSERT INTO trips(name,creator) values(?,?)',
-      [req.body.name, req.user.id]
+      'INSERT INTO trips(name,creator, uuid) values(?,?,?)',
+      [req.body.name, req.user.id, uuid()]
     );
     const tripid = result.insertId;
     await db.query('INSERT INTO user_trip(userid, tripid) VALUES(?,?)', [
@@ -31,10 +32,22 @@ router.post('/addmembers', async (req, res) => {
   }
 });
 
+router.get('/:tripid', async (req, res) => {
+  try {
+    const result = await db.query(
+      'select userid, name, email from users inner join user_trip on user_trip.userid = users.id where tripid=?',
+      [req.params.tripid]
+    );
+    return res.sendSuccess(result);
+  } catch (err) {
+    res.sendError(err);
+  }
+});
+
 router.get('/', async (req, res) => {
   try {
     const result = await db.query(
-      'select tripid,name from trips inner join user_trip on trips.id=user_trip.tripid where userid = ?',
+      'select tripid,name,uuid from trips inner join user_trip on trips.id=user_trip.tripid where userid = ?',
       [req.user.id]
     );
     return res.sendSuccess(result);

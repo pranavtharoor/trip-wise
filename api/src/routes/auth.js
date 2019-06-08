@@ -51,4 +51,9 @@ router.get('/search/:str', async (req, res) => {
   }
 });
 
+router.get('/init', async (req, res) => {
+  if (req.isAuthenticated()) return res.sendSuccess(req.user);
+  return res.sendError(null, 'User Not logged in');
+});
+
 export default router;
