@@ -76,7 +76,7 @@ router.get('/login', function(req, res) {
 
   // your application requests authorization
   var scope =
-    'streaming user-read-currently-playing user-modify-playback-state user-read-private user-read-email user-read-birthdate';
+    'user-read-recently-played user-top-read user-library-modify user-library-read playlist-read-private playlist-modify-public playlist-modify-private playlist-read-collaborative user-read-email user-read-birthdate user-read-private user-read-playback-state user-modify-playback-state user-read-currently-playing app-remote-control streaming user-follow-read user-follow-modify';
   res.redirect(
     'https://accounts.spotify.com/authorize?' +
       querystring.stringify({
@@ -90,9 +90,9 @@ router.get('/login', function(req, res) {
 });
 
 router.get('/callback', async (req, res) => {
+  console.log('getting called back');
   // your application requests refresh and access tokens
   // after checking the state parameter
-
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -117,6 +117,7 @@ router.get('/callback', async (req, res) => {
     };
 
     request.post(authOptions, async function(error, response, body) {
+      console.log(error, response.statusCode);
       if (!error && response.statusCode === 200) {
         var access_token = body.access_token,
           refresh_token = body.refresh_token;
@@ -235,14 +236,18 @@ router.post('/create_playlist', async (req, res) => {
   console.log('here');
   try {
     let token = await checkToken(req.user.id);
-    var userid = await db.query('SELECT spot_id FROM users where id = ?', [
+    var details = await db.query('SELECT spot_id FROM users where id = ?', [
       req.user.id
     ]);
-    console.log('userid',userid);
+    var user = details[0];
+    console.log('userid',user.spot_id);
+    console.log(token)
     var options = {
-      url: `https://api.spotify.com/v1/user/${userid}/playlist`,
+      url: `https://api.spotify.com/v1/users/${user.spot_id}/playlists`,
       headers: {
-        Authorization: 'Bearer ' + token
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json',
+        'Accept':'application/json'
       },
       body: {
         name: req.body.name,
@@ -253,6 +258,7 @@ router.post('/create_playlist', async (req, res) => {
       json: true
     };
     request.post(options, async function(error, response, body) {
+      console.log(error, response.statusCode);
       if (!error && response.statusCode === 200) {
         db.query('INSERT INTO trip_playlist(tid, name) VALUES(?, ?)', [
           body.id,
