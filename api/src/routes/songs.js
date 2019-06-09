@@ -313,6 +313,18 @@ router.post('/add_song', async (req, res) => {
       },
       json: true
     };
+    request.post(options,(error, response, body)=>{
+       if (!error && response.statusCode === 200)
+        res.send({
+          success: true,
+          data: body
+        });
+      else
+        res.send({
+          success: false
+        });
+
+    });
   } catch (err) {
     res.sendError(err);
   }
