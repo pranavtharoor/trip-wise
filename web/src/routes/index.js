@@ -138,7 +138,7 @@ export default [
                   onChange={e => this.setState({ amount: e.target.value })}
                   type="number"
                   name="amount"
-                  placeholder="amount"
+                  placeholder="Amount"
                   value={this.state.amount}
                 />
                 <button
