@@ -101,7 +101,7 @@ class FlightBookingFormClass extends Component {
             <div className="row">
               <label>Destination: </label>
               <br />
-              <Field name="source" component="select">
+              <Field name="destination" component="select">
                 <option value="CCU">Calcutta</option>
                 <option value="BLR">Bangalore</option>
                 <option value="DEL">New Delhi</option>
@@ -150,6 +150,7 @@ class FlightBookingFormClass extends Component {
                 <div>AIRLINE:{flight.airline}</div>
                 <div>FLIGHT NO:{flight.flightno}</div>
                 <div>TOTAL FARE:{flight.fare.totalfare}</div>
+                <br /><hr /><br />
               </div>
             ))}
           </div>

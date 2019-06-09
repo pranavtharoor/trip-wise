@@ -40,7 +40,8 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			height: 100vh;
+			height: calc(100vh-75px);
+			margin-top: 75px;
 		}
 		.listing-container .simple-input {
 			width: 100%;
@@ -393,7 +394,7 @@ function play(device_id) {
 </head>
 <body>
 		<div class="topnav">
-				<a href="/trips">Home</a>
+				<a href="http://localhost:8080/trips">Home</a>
 					<a class="active" href="#">Music</a>
 			</div>
 	<div class="listing-container">

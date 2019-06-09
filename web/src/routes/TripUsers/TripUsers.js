@@ -71,9 +71,9 @@ class TripUsers extends Component {
               </Link>
             </div>
             <div>
-              <Link to={`/api/trips/${this.props.match.params.tripId}/music`}>
+              <a href={`http://localhost:3000/api/trips/3/music`}>
                 Music
-              </Link>
+              </a>
             </div>
           </div>
         </div>

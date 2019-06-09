@@ -31,7 +31,7 @@ function* flightChoice({ payload }) {
   if (data.success) {
     yield put(action(FLIGHT_CHOICE.RECEIVE));
     yield put(action(SNACKBAR.SUCCESS, data.msg));
-    yield payload.push('/');
+    yield payload.push('/trips');
   } else {
     yield put(action(FLIGHT_CHOICE.ERROR));
     yield put(action(SNACKBAR.DANGER, 'Unable to book flight'));
