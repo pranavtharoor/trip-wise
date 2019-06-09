@@ -29,7 +29,7 @@ CREATE TABLE `expense` (
   `amount` double NOT NULL,
   `added_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,6 @@ CREATE TABLE `expense` (
 
 LOCK TABLES `expense` WRITE;
 /*!40000 ALTER TABLE `expense` DISABLE KEYS */;
-INSERT INTO `expense` VALUES (7,3,'Flight Booking FROM CCU TO BLR ON 20190730 #7',7960,1);
 /*!40000 ALTER TABLE `expense` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +142,7 @@ CREATE TABLE `transactions` (
   `userid` int(11) NOT NULL,
   `amount` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,8 +151,33 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (4,3,7,2,-3980),(5,3,7,1,3980);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `trip_playlist`
+--
+
+DROP TABLE IF EXISTS `trip_playlist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `trip_playlist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `play_id` varchar(200) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `tid` int(11) DEFAULT '3',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `trip_playlist`
+--
+
+LOCK TABLES `trip_playlist` WRITE;
+/*!40000 ALTER TABLE `trip_playlist` DISABLE KEYS */;
+INSERT INTO `trip_playlist` VALUES (1,'0QnmmLExoavaO9xc106KVw','ye',3);
+/*!40000 ALTER TABLE `trip_playlist` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -167,11 +191,10 @@ CREATE TABLE `trips` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `creator` int(11) NOT NULL,
-  `uuid` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `creator` (`creator`),
   CONSTRAINT `trips_ibfk_1` FOREIGN KEY (`creator`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +203,6 @@ CREATE TABLE `trips` (
 
 LOCK TABLES `trips` WRITE;
 /*!40000 ALTER TABLE `trips` DISABLE KEYS */;
-INSERT INTO `trips` VALUES (2,'Goa',1,'a812f949-7f77-4de8-a9d8-de00da9d97f2'),(3,'Goa',1,'b60dd24c-ea05-4525-9090-7eba447b9e08'),(4,'Hackccelerator',1,'434fb3af-bdcb-4479-83ae-2dbcf3ebc425');
 /*!40000 ALTER TABLE `trips` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -207,7 +229,6 @@ CREATE TABLE `user_trip` (
 
 LOCK TABLES `user_trip` WRITE;
 /*!40000 ALTER TABLE `user_trip` DISABLE KEYS */;
-INSERT INTO `user_trip` VALUES (1,3),(2,3),(1,4);
 /*!40000 ALTER TABLE `user_trip` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,9 +244,13 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `access_token` text,
+  `refresh_token` text,
+  `spot_id` varchar(100) DEFAULT NULL,
+  `timeleft` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,7 +259,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Shreyansh','shreyanshmurarka97@gmail.com','blaaah'),(2,'Shreyansh','test@gmail.com','blaaah');
+INSERT INTO `users` VALUES (1,'Shreyansh','shreyanshmurarka97@gmail.com','blaaah','BQBcG2jcvP-wpzQwA3F4xJ3P02oZrJP8ELQQko_LAeRAEbLnm8QdtcSwdssNQtOX3LDDksv6_LSWmw7NtEy1UOv58t5Ur1x4QG00f0FqQHgh13zzoqnZuW5dh4xZwwSV1xRUwfRht4_6bv_gpC6LfxeQm4M4GM8c6mH6R0KmT_AXuMduPDRvsbJSXyyZewDcuE1asNAAvA0NVqdH700Nboa6BfOkgNk9W3UNePG5fd1ghqpWLK08Y2neKQHxrGrl--y-9pg591ytoTDEKS6a7Kf1FXv-i6IvLg8Q-ERCbb4guqc','AQCHdNKHOad5GUPVw5WhaiWaMIMKDORKijzF4Zx4qOyIDq8gDzwpJKasC3M0DxFsO_KOs1dngoECY_G0CxrSayj8Pu4AiDadgEZOfy-xZrOeP77QVBa8blRvHjZqadeSs8xg9A','7iwcnwt40omyy7t7j2mno4fk5',1560064326603);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -247,4 +272,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-09  2:11:36
+-- Dump completed on 2019-06-09 12:30:00
