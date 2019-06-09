@@ -9,7 +9,7 @@ const router = express.Router();
 
 var client_id = 'ef9c41ca2ea544408f06c9dff22bf382'; // Your client id
 var client_secret = '67d40af6b7bd491e924a6d9d842b624b'; // Your secret
-var redirect_uri = 'http://localhost:8080/api/songs/callback'; // Your redirect uri
+var redirect_uri = 'http://localhost:3000/api/songs/callback'; // Your redirect uri
 
 var stateKey = 'spotify_auth_state';
 
@@ -156,9 +156,9 @@ router.get('/callback', async (req, res) => {
             });
           }
         });
-        res.redirect('/trips');
+        res.redirect('http://localhost:3000/trips');
       } else {
-        res.redirect('/trips');
+        res.redirect('http://localhost:3000/trips');
       }
     });
   }
@@ -262,16 +262,18 @@ router.post('/create_playlist', async (req, res) => {
     };
     request.post(options, async function(error, response, body) {
       console.log(error, response.statusCode);
-      if (!error && response.statusCode === 200) {
-        db.query('INSERT INTO trip_playlist(tid, name) VALUES(?, ?)', [
-          body.id,
-          body.name
-        ]);
+      if (!error) {
+        console.log(body.id);
+        await db.query(
+          'INSERT INTO trip_playlist(tid, name,play_id) VALUES(?, ?,?)',
+          [req.body.tid, body.name, body.id]
+        );
         // res.send(response.body);
         res.send({
           success: true
         });
       } else {
+        console.log(error);
         res.send({
           success: false
         });
@@ -291,7 +293,7 @@ router.get('/playlists', async (req, res) => {
   });
 });
 
-router.post('/add_song', async (req, res)=>{
+router.post('/add_song', async (req, res) => {
   try{
     let token = await checkToken(req.user.id);
     let play_id = req.body.play_id;
