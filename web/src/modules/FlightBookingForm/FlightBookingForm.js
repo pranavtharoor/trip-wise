@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
@@ -39,9 +40,20 @@ FlightBookingField.propTypes = {
 };
 
 class FlightBookingFormClass extends Component {
+  state = { teammates: [], people: [] };
+  componentDidMount() {
+    fetch(`/api/trips/${this.props.match.params.tripId}`, {
+      credentials: 'include'
+    })
+      .then(data => data.json())
+      .then(data =>
+        this.setState({ teammates: data.data, teammate: data.data[0] })
+      );
+  }
   render() {
     const props = this.props;
     const { available } = props;
+    console.log(this.state);
     return (
       <div className="flight-booking-form">
         <div className="form">
@@ -53,23 +65,70 @@ class FlightBookingFormClass extends Component {
               })
             )}
           >
-            <Field name="dateofdeparture" component="input" type="date" />
-            Date of Departure
-            <Field
-              name="seatingclass"
-              component="input"
-              type="radio"
-              value="E"
-              checked
-            />
-            Economic
-            <Field
-              name="seatingclass"
-              component="input"
-              type="radio"
-              value="B"
-            />
-            Business
+            <div className="row">
+              Date of Departure
+              <Field name="dateofdeparture" component="input" type="date" />
+            </div>
+            <div className="row">
+              <Field
+                name="seatingclass"
+                component="input"
+                type="radio"
+                value="E"
+                checked
+              />
+              Economic
+              <br />
+              <Field
+                name="seatingclass"
+                component="input"
+                type="radio"
+                value="B"
+              />
+              Business
+            </div>
+            <div className="row">
+              <label>Source: </label>
+              <br />
+              <Field name="source" component="select">
+                <option value="CCU">Calcutta</option>
+                <option value="BLR">Bangalore</option>
+                <option value="DEL">New Delhi</option>
+                <option value="HYD">Hyderabad</option>
+                <option value="BOM">Mumbai</option>
+              </Field>
+            </div>
+            <div className="row">
+              <label>Destination: </label>
+              <br />
+              <Field name="source" component="select">
+                <option value="CCU">Calcutta</option>
+                <option value="BLR">Bangalore</option>
+                <option value="DEL">New Delhi</option>
+                <option value="HYD">Hyderabad</option>
+                <option value="BOM">Mumbai</option>
+              </Field>
+            </div>
+            <div className="row">
+              <label>Select People:</label>
+              <br />
+              <select
+                name="teammate"
+                onChange={e =>
+                  this.setState({
+                    teammate: e.target.selectedOptions[0].value,
+                    people: [...this.state.people, this.state.teammate]
+                  })
+                }
+              >
+                {this.state.teammates.map((teammate, i) => (
+                  <option key={i} value={teammate.userid}>
+                    {teammate.name}
+                  </option>
+                ))}
+              </select>
+              {/* <div className="row">{JSON.stringify(this.state.people)}</div> */}
+            </div>
             <button>Continue</button>
           </form>
           <div>
