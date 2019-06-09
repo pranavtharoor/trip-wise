@@ -300,6 +300,7 @@ router.get('/playlists', async (req, res) => {
 
 router.post('/add_song', async (req, res) => {
   try {
+    console.log('Knock knock');
     let token = await checkToken(req.user.id);
     let play_id = req.body.play_id;
     var options = {
@@ -309,11 +310,12 @@ router.post('/add_song', async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: {
-        uris: req.body.tracks,
+        uris: req.body.tracks
       },
       json: true
     };
-    request.post(options,(error, response, body)=>{
+    console.log('Mein yahan pe hun');
+    request.post(options, (error, response, body) => {
        if (!error && response.statusCode === 200)
         res.send({
           success: true,
@@ -323,7 +325,6 @@ router.post('/add_song', async (req, res) => {
         res.send({
           success: false
         });
-
     });
   } catch (err) {
     res.sendError(err);

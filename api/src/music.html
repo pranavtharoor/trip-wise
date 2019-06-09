@@ -357,7 +357,7 @@ var slideToggle = (target, duration = 500) => {
 			for(let i=0;i<playlists.data.length;i++){
 				let playlist = playlists.data[i];
 				node.innerHTML += `
-				<span onclick="window.location.href='./playlist?id=${playlist.play_id}'">
+				<span onclick="window.location.href='/api/playlist?id=${playlist.play_id}'">
 					<p class="js-sauce-name">${playlist.name}</p>
 				</span>
 				`
