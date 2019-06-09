@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './tripList.scss';
+import { Link } from 'react-router-dom';
 
 class TripList extends Component {
   componentDidMount() {
@@ -11,7 +12,9 @@ class TripList extends Component {
     return (
       <div className="trip-list">
         {trips.map((trip, i) => (
-          <div key={`trip_${i}`}>{trip.name}</div>
+          <Link to={`/trips/${trip.tripid}`} key={`trip_${i}`}>
+            <div>{trip.name}</div>
+          </Link>
         ))}
       </div>
     );

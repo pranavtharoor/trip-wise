@@ -9,6 +9,19 @@ import './expenses.scss';
 
 export default [
   {
+    name: 'Chat',
+    pathname: '/trips/:tripId/chat',
+    component: class Chat extends React.Component {
+      render() {
+        return (
+          <div style={{ fontSize: '3rem', fontWeight: 500, padding: 40 }}>
+            Chat
+          </div>
+        );
+      }
+    }
+  },
+  {
     name: 'Expenses',
     pathname: '/trips/:tripId/expenses',
     component: class Expenses extends React.Component {
@@ -138,7 +151,7 @@ export default [
                   onChange={e => this.setState({ amount: e.target.value })}
                   type="number"
                   name="amount"
-                  placeholder="amount"
+                  placeholder="Amount"
                   value={this.state.amount}
                 />
                 <button
