@@ -101,17 +101,20 @@ router.get('/callback', async (req, res) => {
     res.redirect('/trips');
   } else {
     res.clearCookie(stateKey);
+    var buff = Buffer.from(client_id + ':' + client_secret).toString('base64');
+    console.log('buf',buff);
     var authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code: code,
         redirect_uri: redirect_uri,
-        grant_type: 'authorization_code'
+        grant_type: "authorization_code"
       },
       headers: {
+        'Content-Type': application/x-www-form-urlencoded,
         Authorization:
           'Basic ' +
-          new Buffer(client_id + ':' + client_secret).toString('base64')
+          new Buffer.from(client_id + ':' + client_secret).toString('base64')
       },
       json: true
     };
