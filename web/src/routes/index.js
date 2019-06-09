@@ -5,6 +5,7 @@ import Trips from './Trips';
 import Booking from './Booking';
 import TripUsers from './TripUsers';
 import React from 'react';
+import './expenses.scss';
 
 export default [
   {
@@ -31,7 +32,11 @@ export default [
         })
           .then(data => data.json())
           .then(data =>
-            this.setState({ teammates: data.data, teammate: data.data[0] })
+            this.setState({
+              teammates: data.data,
+              teammate: data.data[0].id,
+              nameTeammate: data.data[0].name
+            })
           );
       };
       componentDidMount() {
@@ -66,9 +71,14 @@ export default [
       };
       render() {
         return (
-          <div>
+          <div className="expenses">
+            <div className="header">EXPENSES</div>
             {this.state.expenses.map(expense => (
-              <div>{JSON.stringify(this.state)}</div>
+              <div className="block-item">
+                <div className="name">{expense.name}</div>
+                <div className="desc">{expense.description}</div>
+                <div className="amt">Rs. {expense.amount}</div>
+              </div>
             ))}
             {!this.state.showList && (
               <button onClick={() => this.setState({ showList: true })}>
@@ -76,9 +86,15 @@ export default [
               </button>
             )}
             {this.state.showList && (
-              <div>
+              <div className="form-items">
                 {this.state.exchanges.map(exchange => (
-                  <div>{JSON.stringify(exchange)}</div>
+                  <div className="added-users">
+                    {/* {JSON.stringify(exchange)} */}
+                    <div className="user"> {exchange.name}</div>
+                    {/* <div>Email: {exchange.email}</div> */}
+                    <div>Rs. {exchange.amount}</div>
+                    <div className="paid"> {exchange.type}</div>
+                  </div>
                 ))}
                 <textarea
                   placeholder="Description"
@@ -92,11 +108,14 @@ export default [
                   placeholder="Total"
                   value={this.state.total}
                 />
+                <br />
+                <hr />
                 <select
                   name="teammate"
                   onChange={e =>
                     this.setState({
-                      teammate: e.target.selectedOptions[0].value
+                      teammate: e.target.selectedOptions[0].value,
+                      nameTeammate: e.target.selectedOptions[0].label
                     })
                   }
                 >
@@ -128,6 +147,7 @@ export default [
                       exchanges: [
                         ...this.state.exchanges,
                         {
+                          name: this.state.nameTeammate,
                           teammate: this.state.teammate,
                           type: this.state.type,
                           amount: this.state.amount

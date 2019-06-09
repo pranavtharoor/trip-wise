@@ -1,0 +1,88 @@
+@import 'Src/core/common.scss';
+
+.expenses {
+  .header {
+    padding: 20px;
+    font-weight: 500;
+    font-size: 2rem;
+    color: $color-primary;
+    margin-bottom: 5px;
+    background: white;
+    position: sticky;
+    z-index: 100;
+    top: 0;
+  }
+  .block-item {
+    background: white;
+    padding: 10px;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    margin: 0.5px 0;
+    position: relative;
+
+    .name {
+      font-weight: 500;
+      font-size: 1.4rem;
+      padding: 10px 5px;
+    }
+
+    .desc {
+      padding: 0 5px 5px;
+    }
+
+    .amt {
+      text-align: right;
+      margin-top: -20px;
+      padding: 0 10px;
+    }
+  }
+  input,
+  textarea {
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+    margin: 15px 0;
+    padding: 10px 20px;
+  }
+  textarea {
+    margin-bottom: -10px;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  button,
+  select {
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    margin: 5px;
+    padding: 10px 20px;
+    background: $color-primary;
+    color: white;
+  }
+  select {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .form-items {
+    padding: 20px;
+  }
+
+  .added-users {
+    background: $color-primary;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+
+    .user {
+      font-weight: 500;
+      font-size: 1.4rem;
+      padding: 0 0 20px;
+    }
+
+    .paid {
+      text-align: right;
+      text-transform: capitalize;
+    }
+  }
+}
