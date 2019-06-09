@@ -4,10 +4,13 @@ import TripForm from 'Src/modules/TripForm';
 import './trips.scss';
 import PropTypes from 'prop-types';
 import AddButton from 'Src/modules/AddButton';
+import { Link } from 'react-router-dom';
 
 const Trips = props => (
   <div className="trips-page">
-    <div className="header">TRIPS</div>
+    <div className="header">
+      <div>TRIPS</div>
+    </div>
     <div className="list-container">
       <TripList />
     </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TripUsersList from 'Src/modules/TripUsersList';
 import './tripUsers.scss';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 class TripUsers extends Component {
   state = {
@@ -45,7 +45,38 @@ class TripUsers extends Component {
   render() {
     return (
       <div className="trip-users-page">
-        <div className="header">TRIP MEMBERS</div>
+        <div className="header">
+          <div
+            style={{
+              borderBottom: 'solid thin rgba(100, 100, 100, 0.1)',
+              paddingBottom: 10
+            }}
+          >
+            TRIP MEMBERS
+          </div>
+          <div className="nav">
+            <div>
+              <Link to={`/trips/${this.props.match.params.tripId}/booking`}>
+                Booking
+              </Link>
+            </div>
+            <div>
+              <Link to={`/trips/${this.props.match.params.tripId}/chat`}>
+                Chat
+              </Link>
+            </div>
+            <div>
+              <Link to={`/trips/${this.props.match.params.tripId}/expenses`}>
+                Expenses
+              </Link>
+            </div>
+            <div>
+              <Link to={`/api/trips/${this.props.match.params.tripId}/music`}>
+                Music
+              </Link>
+            </div>
+          </div>
+        </div>
         <TripUsersList tripId={this.props.match.params.tripId} />
         <form
           onSubmit={e => {

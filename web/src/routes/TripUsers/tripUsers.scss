@@ -47,4 +47,16 @@
       background: green;
     }
   }
+  a {
+    text-decoration: none;
+    color: gray;
+    font-size: 1rem;
+    font-weight: thin;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: -10px;
+  }
 }
