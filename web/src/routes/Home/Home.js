@@ -4,9 +4,13 @@ import './home.scss';
 
 const Home = () => (
   <div className="home-page">
-    TripWise
-    <Link to="/signin">Sign In</Link>
-    <Link to="/signup">Sign Up</Link>
+    <div className="heading">TripWise</div>
+    <div>
+      <Link to="/signin">Sign In</Link>
+    </div>
+    <div>
+      <Link to="/signup">Sign Up</Link>
+    </div>
   </div>
 );
 

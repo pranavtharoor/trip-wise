@@ -18,7 +18,9 @@ export default [
         exchanges: [],
         type: 'paid',
         teammate: {},
-        amount: null
+        amount: null,
+        total: null,
+        desc: ''
       };
       fetchData = () => {
         fetch('/api/expenses/listExpenses', { credentials: 'include' })
@@ -35,11 +37,38 @@ export default [
       componentDidMount() {
         this.fetchData();
       }
+      submitExchanges = () => {
+        const owsList = this.state.exchanges.filter(a => a.type === 'owes');
+        const paidList = this.state.exchanges.filter(a => a.type === 'paid');
+        const owes = owsList.map(a => ({ user: a.teammate, amount: a.amount }));
+        const paid = paidList.map(a => ({
+          user: a.teammate,
+          amount: a.amount
+        }));
+        const body = {
+          tripid: this.props.match.params.tripId,
+          desc: this.state.desc,
+          amount: this.state.total,
+          owes,
+          paid
+        };
+        fetch('/api/expenses/addExpense', {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          method: 'POST',
+          body: JSON.stringify(body),
+          credentials: 'include'
+        })
+          .then(data => data.json())
+          .then(data => console.log(data));
+      };
       render() {
         return (
           <div>
             {this.state.expenses.map(expense => (
-              <div>{JSON.stringify(expense)}</div>
+              <div>{JSON.stringify(this.state)}</div>
             ))}
             {!this.state.showList && (
               <button onClick={() => this.setState({ showList: true })}>
@@ -51,13 +80,23 @@ export default [
                 {this.state.exchanges.map(exchange => (
                   <div>{JSON.stringify(exchange)}</div>
                 ))}
+                <textarea
+                  placeholder="Description"
+                  value={this.state.desc}
+                  onChange={e => this.setState({ desc: e.target.value })}
+                />
+                <input
+                  onChange={e => this.setState({ total: e.target.value })}
+                  type="number"
+                  name="total"
+                  placeholder="Total"
+                  value={this.state.total}
+                />
                 <select
                   name="teammate"
                   onChange={e =>
                     this.setState({
-                      teammate: this.state.teammates[
-                        e.target.selectedOptions[0]
-                      ]
+                      teammate: e.target.selectedOptions[0].value
                     })
                   }
                 >
@@ -69,7 +108,7 @@ export default [
                   name="type"
                   onChange={e =>
                     this.setState({
-                      type: e.target.selectedOptions[0] === 0 ? 'paid' : 'owes'
+                      type: e.target.selectedOptions[0].value
                     })
                   }
                 >
@@ -99,6 +138,8 @@ export default [
                 >
                   Add
                 </button>
+                <br />
+                <button onClick={() => this.submitExchanges()}>Confirm</button>
               </div>
             )}
           </div>
