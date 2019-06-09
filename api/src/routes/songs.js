@@ -21,6 +21,7 @@ const checkToken = userid => {
         userid
       ]);
       const user = details[0];
+      console.log(now,user.timeleft);
       if (!user.access_token || !user.refresh_token)
         return reject('User not authorized on spotify');
       if (now > parseInt(user.timeleft)) {
@@ -43,7 +44,7 @@ const checkToken = userid => {
           if (!error && response.statusCode === 200) {
             var access_token = body.access_token;
             await db.query(
-              'UPDATE users SET access_token = ?, timeleft WHERE id = ?',
+              'UPDATE users SET access_token = ?, timeleft = ? WHERE id = ?',
               [access_token, now + body.expires_in * 1000, userid]
             );
             return resolve(access_token);
@@ -119,14 +120,15 @@ router.get('/callback', async (req, res) => {
       if (!error && response.statusCode === 200) {
         var access_token = body.access_token,
           refresh_token = body.refresh_token;
+          const now = new Date().getTime() + 10000;
 
-        console.log(access_token);
+        // console.log(access_token);
         await db.query(
-          'UPDATE users SET access_token = ?, refresh_token = ? WHERE id = ?',
-          [access_token, refresh_token, req.user.id]
+          'UPDATE users SET access_token = ?, refresh_token = ?, timeleft = ? WHERE id = ?',
+          [access_token, refresh_token,now+ body.expires_in*1000, req.user.id]
         );
         // we can also pass the token to the browser to make requests from there
-        let token = await checkToken(req.user.id);
+        // let token = await checkToken(req.user.id);
         var options = {
           url: 'https://api.spotify.com/v1/me',
           headers: {
@@ -134,7 +136,7 @@ router.get('/callback', async (req, res) => {
           },
           json: true
         };
-
+        console.log('spot');
         // use the access token to access the Spotify Web API
         request.get(options, async function(error, response, body) {
           if (!error && response.statusCode === 200) {
@@ -229,12 +231,14 @@ router.get('/search', async (req, res) => {
   }
 });
 
-router.post('create_playlist', async (req, res) => {
+router.post('/create_playlist', async (req, res) => {
+  console.log('here');
   try {
     let token = await checkToken(req.user.id);
     var userid = await db.query('SELECT spot_id FROM users where id = ?', [
       req.user.id
     ]);
+    console.log('userid',userid);
     var options = {
       url: `https://api.spotify.com/v1/user/${userid}/playlist`,
       headers: {
@@ -276,6 +280,25 @@ router.get('/playlists', async (req, res) => {
   res.send({
     data: playlists
   });
+});
+
+router.post('/add_song', async (req, res)=>{
+  try{
+    let token = await checkToken(req.user.id);
+    let play_id = req.body.play_id;
+    var options = {
+      url: `https://api.spotify.com/v1/playlists/${play_id}/tracks`,
+      headers: { 'Authorization': 'Bearer ' + token,
+    'Content-Type': 'application/json'},
+      body : {
+          uris: []
+      },
+      json: true
+    };
+  }
+  catch(err){
+    res.sendError(err);
+  }
 });
 
 export default router;
