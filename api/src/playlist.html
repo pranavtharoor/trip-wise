@@ -225,18 +225,7 @@
 <body>
 	<h1 id="headline">Playlists</h1>
 	<div class="listing-container">
-		<div class="inputs-container" id="playlists">
-		</div>
-		<br><br>
-		<div id="new-playlist">
-			<form class="inputs-container">
-				<input type="text" name="name" placeholder="name" class="simple-input" id="name">
-				<textarea class="simple-input" placeholder="description" name="description" id="description"></textarea>
-				<span onclick="createnewplaylist(); return false;"><p class="js-sauce-name">Create New Playlist</p></span>
-			</form>
-		</div>
-		<div class="inputs-container" id="login">
-			<span onclick="window.location.href='/api/songs/login';"><p class="js-sauce-name">Connect Spotify</p></span>
+		<div class="inputs-container" id="songs">
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -340,48 +329,6 @@ var slideToggle = (target, duration = 500) => {
 				document.getElementById('new-playlist').style.display='none';
 			}
 		})
-
-		fetch('/api/songs/playlists?tid='+tripid,{
-			credentials: "include",
-			headers: {
-      	Accept: 'application/json',
-      	'Content-Type': 'application/json; charset=utf-8'
-    	},
-			redirect: 'follow',
-			referrer: 'no-referrer',
-		})
-		.then(res => res.json())
-		.then(playlists => {
-			console.log(playlists);
-			const node = document.getElementById('playlists');
-			for(let i=0;i<playlists.data.length;i++){
-				let playlist = playlists.data[i];
-				node.innerHTML += `
-				<span onclick="window.location.href='./playlist?id=${playlist.play_id}'">
-					<p class="js-sauce-name">${playlist.name}</p>
-				</span>
-				`
-			};
-		})
-		.catch(console.log);
-
-		function createnewplaylist() {
-			const name = document.getElementById('name').value;
-			const description = document.getElementById('description').value;
-			console.log(name, description);
-			const data = {name, description, tid: tripid};
-			fetch('/api/songs/create_playlist',{
-				method: 'POST',
-				body: JSON.stringify(data),
-				credentials: "include",
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json; charset=utf-8'
-				},
-				redirect: 'follow',
-				referrer: 'no-referrer',
-			})
-		}
 	</script>
 </body>
 </html>

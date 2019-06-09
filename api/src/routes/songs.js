@@ -21,7 +21,7 @@ const checkToken = userid => {
         userid
       ]);
       const user = details[0];
-      console.log(now,user.timeleft);
+      console.log(now, user.timeleft);
       if (!user.access_token || !user.refresh_token)
         return reject('User not authorized on spotify');
       if (now > parseInt(user.timeleft)) {
@@ -102,16 +102,16 @@ router.get('/callback', async (req, res) => {
   } else {
     res.clearCookie(stateKey);
     var buff = Buffer.from(client_id + ':' + client_secret).toString('base64');
-    console.log('buf',buff);
+    console.log('buf', buff);
     var authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code: code,
         redirect_uri: redirect_uri,
-        grant_type: "authorization_code"
+        grant_type: 'authorization_code'
       },
       headers: {
-        'Content-Type': application/x-www-form-urlencoded,
+        'Content-Type': application / x - www - form - urlencoded,
         Authorization:
           'Basic ' +
           new Buffer.from(client_id + ':' + client_secret).toString('base64')
@@ -124,12 +124,17 @@ router.get('/callback', async (req, res) => {
       if (!error && response.statusCode === 200) {
         var access_token = body.access_token,
           refresh_token = body.refresh_token;
-          const now = new Date().getTime() + 10000;
+        const now = new Date().getTime() + 10000;
 
         // console.log(access_token);
         await db.query(
           'UPDATE users SET access_token = ?, refresh_token = ?, timeleft = ? WHERE id = ?',
-          [access_token, refresh_token,now+ body.expires_in*1000, req.user.id]
+          [
+            access_token,
+            refresh_token,
+            now + body.expires_in * 1000,
+            req.user.id
+          ]
         );
         // we can also pass the token to the browser to make requests from there
         // let token = await checkToken(req.user.id);
@@ -243,14 +248,14 @@ router.post('/create_playlist', async (req, res) => {
       req.user.id
     ]);
     var user = details[0];
-    console.log('userid',user.spot_id);
-    console.log(token)
+    console.log('userid', user.spot_id);
+    console.log(token);
     var options = {
       url: `https://api.spotify.com/v1/users/${user.spot_id}/playlists`,
       headers: {
-        'Authorization': 'Bearer ' + token,
+        Authorization: 'Bearer ' + token,
         'Content-Type': 'application/json',
-        'Accept':'application/json'
+        Accept: 'application/json'
       },
       body: {
         name: req.body.name,
@@ -294,46 +299,46 @@ router.get('/playlists', async (req, res) => {
 });
 
 router.post('/add_song', async (req, res) => {
-  try{
+  try {
     let token = await checkToken(req.user.id);
     let play_id = req.body.play_id;
     var options = {
       url: `https://api.spotify.com/v1/playlists/${play_id}/tracks`,
-      headers: { 'Authorization': 'Bearer ' + token,
-    'Content-Type': 'application/json'},
-      body : {
-          uris: []
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: {
+        uris: []
       },
       json: true
     };
-  }
-  catch(err){
+  } catch (err) {
     res.sendError(err);
   }
 });
 
-app.get('/content', (req, res)=>{
-  try{
+router.get('/content', async (req, res) => {
+  try {
     let token = await checkToken(req.user.id);
     let play_id = req.body.play_id;
     var options = {
       url: `https://api.spotify.com/v1/playlists/${play_id}/tracks`,
-      headers: { 'Authorization': 'Bearer ' + token,},
+      headers: { Authorization: 'Bearer ' + token },
       json: true
     };
-    request.get(options, (error, response, body)=>{
+    request.get(options, (error, response, body) => {
       if (!error && response.statusCode === 200)
-      res.send({
-        success: true,
-        data: body
-      });
-    else
-      res.send({
-        success: false
-      });
+        res.send({
+          success: true,
+          data: body
+        });
+      else
+        res.send({
+          success: false
+        });
     });
-  }
-  catch(err){
+  } catch (err) {
     res.sendError(err);
   }
 });
