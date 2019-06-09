@@ -4,6 +4,8 @@ import validate from '../utils/validator';
 import schema from '../schemas/auth';
 
 const http = require('http');
+let {PythonShell} = require('python-shell');
+
 
 const router = express.Router();
 
@@ -16,6 +18,28 @@ router.get('/listExpenses', async (req, res) => {
     return res.sendSuccess(result);
   } catch (err) {
     res.sendError(err);
+  }
+});
+
+router.get('/parseBill', async (req, res) => {
+  try {
+    // const {spawn} = require('child_process');
+    // const pyProcess = spawn('python', ['../../parser2.py']);
+    // // console.log("Inside parseBill");
+    // await pyProcess.stdout.on('data', data => {
+    //   console.log('In parse');
+    //   console.log(data);
+    //   res.send(data);
+    // });
+    // console.log("inside ParseBill");
+    // console.log()
+    PythonShell.run('parser2.py', {scriptPath: '/home/dylan/Desktop/projects/mmtb/base/trippee/api/'}, (err,result) => {
+      if(err)
+        throw err;
+      res.send(result);
+    });
+  } catch (e) {
+    res.sendError(e);
   }
 });
 
@@ -45,7 +69,7 @@ router.post('/addExpense', async (req, res) => {
         user.amount
       ]);
     });
-    res.sendSuccess("Expenses and transactions added successfully!");
+    res.sendSuccess('Expenses and transactions added successfully!');
   } catch (e) {
     res.sendError(e);
   }
