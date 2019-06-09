@@ -312,4 +312,30 @@ router.post('/add_song', async (req, res) => {
   }
 });
 
+app.get('/content', (req, res)=>{
+  try{
+    let token = await checkToken(req.user.id);
+    let play_id = req.body.play_id;
+    var options = {
+      url: `https://api.spotify.com/v1/playlists/${play_id}/tracks`,
+      headers: { 'Authorization': 'Bearer ' + token,},
+      json: true
+    };
+    request.get(options, (error, response, body)=>{
+      if (!error && response.statusCode === 200)
+      res.send({
+        success: true,
+        data: body
+      });
+    else
+      res.send({
+        success: false
+      });
+    });
+  }
+  catch(err){
+    res.sendError(err);
+  }
+});
+
 export default router;
