@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#headline {
+			text-align: center;
+		}
+		/* Fonts */
+		/* Colors */
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: "Source Sans Pro", sans-serif;
+		}
+
+		body {
+			background: #ecf0f1;
+			height: 100vh;
+			font-family: 'Source Sans Pro', sans-serif;
+			font-size: 1.125rem;
+		}
+
+		.icon::before {
+			content: '';
+			display: inline-block;
+			min-height: 25px;
+			min-width: 24px;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+		}
+		.icon-add::before {
+			background-image: url("data:image/svg+xml,%3Csvg width='448' height='448' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient x1='0%25' y1='0%25' y2='100%25' id='a'%3E%3Cstop stop-color='%23EE790F' offset='0%25'/%3E%3Cstop stop-color='%23EB525A' offset='100%25'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M416 176H272V32c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V272h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z' fill='url(%23a)' fill-rule='evenodd'/%3E%3C/svg%3E");
+		}
+
+		.listing-container {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+		.listing-container .simple-input {
+			width: 100%;
+			padding: 1rem;
+			margin-bottom: 4rem;
+			border: 0;
+			font-size: 1.25rem;
+			font-weight: 700;
+			color: black;
+			background: transparent;
+			border-bottom: 2px solid transparent;
+			border-image: linear-gradient(to right, #ee790f 0%, #eb525a 100%);
+			border-image-slice: 1;
+			box-sizing: border-box !important;
+			border-width: 0px 0px 4px 0px;
+			border-radius: 5px;
+			box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0);
+			transition: .3s ease;
+		}
+		.listing-container .simple-input:-ms-input-placeholder {
+			transition: .3s ease;
+			font-weight: 400;
+			color: rgba(0, 0, 0, 0.5);
+		}
+		.listing-container .simple-input::-webkit-input-placeholder {
+			transition: .3s ease;
+			font-weight: 400;
+			color: rgba(0, 0, 0, 0.5);
+		}
+		.listing-container .simple-input::placeholder {
+			transition: .3s ease;
+			font-weight: 400;
+			color: rgba(0, 0, 0, 0.5);
+			opacity: 1;
+		}
+		.listing-container .simple-input:focus:-ms-input-placeholder {
+			color: black;
+		}
+		.listing-container .simple-input:focus::-webkit-input-placeholder {
+			color: black;
+		}
+		.listing-container .simple-input:focus::placeholder {
+			color: black;
+		}
+		.listing-container .simple-input:hover, .listing-container .simple-input:focus {
+			box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+			outline: none;
+		}
+		.listing-container .inputs-container {
+			width: 100%;
+			max-width: 400px;
+			list-style: none;
+		}
+		.listing-container .inputs-container > span {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: relative;
+			padding: 1rem;
+			background: #ee790f;
+			background: linear-gradient(to right, #ee790f 0%, #eb525a 100%);
+			border-radius: 5px;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+			transition: .3s ease;
+		}
+		.listing-container .inputs-container > span:hover {
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+		}
+		.listing-container .inputs-container > span + span {
+			margin-top: 1rem;
+		}
+		.listing-container .inputs-container > span::before {
+			content: attr(data-label);
+			position: absolute;
+			top: 0;
+			transform: translateY(calc(-100% - 5px));
+			left: 0;
+			font-size: 1rem;
+		}
+		.listing-container .inputs-container > span > input {
+			width: 100%;
+			padding: 0 .5rem;
+			background: transparent;
+			border: 1px solid transparent;
+			border-left-width: 2px;
+			font-family: "Source Sans Pro", sans-serif;
+			font-size: 1.125rem;
+			font-weight: 700;
+			transition: .3s ease;
+			animation: editInput 1s infinite;
+		}
+		.listing-container .inputs-container > span > input:-ms-input-placeholder {
+			transition: .3s ease;
+			font-weight: 400;
+			color: white;
+		}
+		.listing-container .inputs-container > span > input::-webkit-input-placeholder {
+			transition: .3s ease;
+			font-weight: 400;
+			color: white;
+		}
+		.listing-container .inputs-container > span > input::placeholder {
+			transition: .3s ease;
+			font-weight: 400;
+			color: white;
+			opacity: 1;
+		}
+		.listing-container .inputs-container > span > input:focus:-ms-input-placeholder {
+			color: black;
+		}
+		.listing-container .inputs-container > span > input:focus::-webkit-input-placeholder {
+			color: black;
+		}
+		.listing-container .inputs-container > span > input:focus::placeholder {
+			color: black;
+		}
+		.listing-container .inputs-container > span > input:hover {
+			border-bottom-color: rgba(255, 255, 255, 0.5);
+		}
+		.listing-container .inputs-container > span > input:focus {
+			outline: none;
+			animation: none;
+			border-bottom-color: rgba(255, 255, 255, 0.5);
+		}
+		.listing-container .inputs-container > span.js-add-sauce {
+			background: transparent;
+			box-shadow: none;
+			justify-content: flex-start;
+			padding: .5rem;
+			min-height: 0;
+		}
+		.listing-container .inputs-container > span.js-add-sauce > a {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 40px;
+			height: 40px;
+			background: #DFDFDF;
+			border-radius: 100%;
+			font-size: 0;
+			transition: .3s ease;
+		}
+		.listing-container .inputs-container > span.js-add-sauce > a .icon {
+			transition: 0.3s ease;
+		}
+		.listing-container .inputs-container > span.js-add-sauce > a:hover, .listing-container .inputs-container > span.js-add-sauce > a:focus {
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+			outline: none;
+		}
+		.listing-container .inputs-container > span.js-add-sauce > a:hover .icon, .listing-container .inputs-container > span.js-add-sauce > a:focus .icon {
+			transform: rotate(90deg) scale(1.2);
+		}
+
+		@keyframes editInput {
+			0% {
+				border-left-color: transparent;
+			}
+			50% {
+				border-left-color: white;
+			}
+			100% {
+				border-left-color: transparent;
+			}
+		}
+		@keyframes bounceError {
+			10%, 90% {
+				transform: translate3d(-1px, 0, 0);
+			}
+			20%, 80% {
+				transform: translate3d(2px, 0, 0);
+			}
+			30%, 50%, 70% {
+				transform: translate3d(-4px, 0, 0);
+			}
+			40%, 60% {
+				transform: translate3d(4px, 0, 0);
+			}
+		}
+
+	</style>
+</head>
+<body>
+	<h1 id="headline">Playlists</h1>
+	<div class="listing-container">
+		<div class="inputs-container">		
+			<span>
+				<p class="js-sauce-name">Playlist 1</p>
+			</span>
+			<span>
+				<p class="js-sauce-name">Playlist 2</p>
+			</span>
+			<br>
+			<form class="inputs-container">
+				<input type="text" name="name" placeholder="name" class="simple-input">
+				<textarea class="simple-input" placeholder="description" name="description"></textarea>
+				<span onclick="callme(); return false;"><p class="js-sauce-name">Create New Playlist</p></span>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function callme() {
+			alert('called me');
+		}
+		const addSauceButton = document.querySelector('.js-add-sauce > a');
+
+
+		addSauceButton.onclick = event => {
+			event.preventDefault();
+			
+		}
+
+		const bounceEmptyInput = childEl => {
+			childEl.parentNode.style.animation = "bounceError .8s ease";
+			childEl.style.animation = "editInput 1s infinite";
+			setTimeout(() => { childEl.parentNode.style.animation = "none"; }, 850);
+		}
+
+// TODO
+// Checker chaque input s'ils ne sont pas vide
+// 
+
+// Slide Function
+let slideUp = (target, duration=500) => {
+	target.style.transitionProperty = 'height, margin, padding';
+	target.style.transitionDuration = duration + 'ms';
+	target.style.boxSizing = 'border-box';
+	target.style.height = target.offsetHeight + 'px';
+	target.offsetHeight;
+	target.style.overflow = 'hidden';
+	target.style.height = 0;
+	target.style.paddingTop = 0;
+	target.style.paddingBottom = 0;
+	target.style.marginTop = 0;
+	target.style.marginBottom = 0;
+	window.setTimeout( () => {
+		target.style.display = 'none';
+		target.style.removeProperty('height');
+		target.style.removeProperty('padding-top');
+		target.style.removeProperty('padding-bottom');
+		target.style.removeProperty('margin-top');
+		target.style.removeProperty('margin-bottom');
+		target.style.removeProperty('overflow');
+		target.style.removeProperty('transition-duration');
+		target.style.removeProperty('transition-property');
+		//alert("!");
+	}, duration);
+}
+
+let slideDown = (target, duration=1000) => {
+	target.style.removeProperty('display');
+	let display = window.getComputedStyle(target).display;
+
+	if (display === 'none')
+		display = 'flex';
+
+	target.style.display = display;
+	let height = target.offsetHeight;
+	target.style.overflow = 'hidden';
+	target.style.height = 0;
+	target.style.paddingTop = 0;
+	target.style.paddingBottom = 0;
+	target.style.marginTop = 0;
+	target.style.marginBottom = 0;
+	target.offsetHeight;
+	target.style.boxSizing = 'border-box';
+	target.style.transitionProperty = "height, margin, padding";
+	target.style.transitionDuration = duration + 'ms';
+	target.style.height = height + 'px';
+	target.style.removeProperty('padding-top');
+	target.style.removeProperty('padding-bottom');
+	target.style.removeProperty('margin-top');
+	target.style.removeProperty('margin-bottom');
+	window.setTimeout( () => {
+		target.style.removeProperty('height');
+		target.style.removeProperty('overflow');
+		target.style.removeProperty('transition-duration');
+		target.style.removeProperty('transition-property');
+	}, duration);
+}
+var slideToggle = (target, duration = 500) => {
+	if (window.getComputedStyle(target).display === 'none') {
+		return slideDown(target, duration);
+	} else {
+		return slideUp(target, duration);
+	}
+}
+</script>
+</body>
+</html>
