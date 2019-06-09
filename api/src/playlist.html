@@ -276,6 +276,30 @@
 			}
 		}
 
+		.topnav {
+        overflow: hidden;
+        background-color: #006dcc;
+      }
+
+      .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
+
+      .topnav a:hover {
+        background-color: #1e3d94;
+        color: ;
+      }
+
+      .topnav a.active {
+        background-color: #1e3d94;
+        color: white;
+      }
+
 	</style>
 	    <link href="https://sp-bootstrap.global.ssl.fastly.net/8.0.0/sp-bootstrap.min.css" rel="stylesheet" />
 			<script
@@ -368,6 +392,10 @@ function play(device_id) {
 			</script>
 </head>
 <body>
+		<div class="topnav">
+				<a href="/trips">Home</a>
+					<a class="active" href="#">Music</a>
+			</div>
 	<div class="listing-container">
 			<a href="#" title="Play video" class="play active"></a>
 			<div>
