@@ -309,7 +309,7 @@ router.post('/add_song', async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: {
-        uris: []
+        uris: req.body.tracks,
       },
       json: true
     };
@@ -321,7 +321,7 @@ router.post('/add_song', async (req, res) => {
 router.get('/content', async (req, res) => {
   try {
     let token = await checkToken(req.user.id);
-    let play_id = req.body.play_id;
+    let play_id = req.query.play_id;
     var options = {
       url: `https://api.spotify.com/v1/playlists/${play_id}/tracks`,
       headers: { Authorization: 'Bearer ' + token },
