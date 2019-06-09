@@ -72,6 +72,7 @@ router.get('/', async (req, res) => {
 
 router.get('/login', function(req, res) {
   var state = uuid();
+  console.log('here');
   res.cookie(stateKey, state);
 
   // your application requests authorization
@@ -111,7 +112,7 @@ router.get('/callback', async (req, res) => {
         grant_type: 'authorization_code'
       },
       headers: {
-        'Content-Type': application / x - www - form - urlencoded,
+        'Content-Type': 'application/x-www-form-urlencoded',
         Authorization:
           'Basic ' +
           new Buffer.from(client_id + ':' + client_secret).toString('base64')
@@ -141,11 +142,10 @@ router.get('/callback', async (req, res) => {
         var options = {
           url: 'https://api.spotify.com/v1/me',
           headers: {
-            Authorization: 'Bearer ' + token
+            Authorization: 'Bearer ' + access_token
           },
           json: true
         };
-        console.log('spot');
         // use the access token to access the Spotify Web API
         request.get(options, async function(error, response, body) {
           if (!error && response.statusCode === 200) {
@@ -154,16 +154,13 @@ router.get('/callback', async (req, res) => {
               req.user.id
             ]);
             console.log(response.body);
-            return res.sendSuccess(body);
+            return res.redirect('http://localhost:3000/trips');
           } else {
-            return res.send({
-              success: false
-            });
+            return res.redirect('http://localhost:3000/trips');
           }
         });
-        res.redirect('http://localhost:3000/trips');
-      } else {
-        res.redirect('http://localhost:3000/trips');
+      } else{
+        return res.redirect('http://localhost:3000/trips');
       }
     });
   }
