@@ -57,27 +57,33 @@ class TripUsers extends Component {
             value={this.state.user}
             type="text"
             name="user"
+            placeholder="Search"
             onChange={e => this.setState({ user: e.target.value })}
           />
+          <button>Go</button>
           {this.state.newUsers.map((user, i) => (
-            <div key={`asd${i}`}>
+            <div className="list" key={`asd${i}`}>
               <div>{user.name}</div>
               <div>{user.email}</div>
-              <button
-                disabled={this.state.toAdd.includes(user.id)}
-                onClick={() => this.addUser(user.id)}
-              >
-                Add
-              </button>
+              <div className="btn">
+                <button
+                  disabled={this.state.toAdd.includes(user.id)}
+                  onClick={() => this.addUser(user.id)}
+                >
+                  Add
+                </button>
+              </div>
             </div>
           ))}
         </form>
-        <button
-          disabled={this.state.toAdd.length === 0}
-          onClick={() => this.addList()}
-        >
-          Continue
-        </button>
+        {this.state.newUsers.length > 0 && (
+          <button
+            disabled={this.state.toAdd.length === 0}
+            onClick={() => this.addList()}
+          >
+            Continue
+          </button>
+        )}
       </div>
     );
   }
